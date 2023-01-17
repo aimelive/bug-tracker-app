@@ -12,6 +12,12 @@ git clone https://github.com/aimelive/bug-tracker-app.git
 * [x] Run `npm start`to launch the project in your default browser
 * N.B: You must have Node Js installed on your machine and `typescript` installed globally on your machine
 
+### Deployments
+
+```bash
+https://bugs-tracking.netlify.app/
+```
+
 
 ### Screenshots
 * Desktop version
