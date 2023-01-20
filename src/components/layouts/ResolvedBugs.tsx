@@ -23,7 +23,7 @@ const ResolvedBugs = (props: any) => {
   );
 };
 const mapStateToProps = (state: any) => ({
-  bugs: state.filter((bug: any) => bug.resolved === true),
+  bugs: state.bugs.filter((bug: any) => bug.resolved === true),
 });
 const mapDispatchToProps = (dispatch: any) => {
   return {

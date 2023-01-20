@@ -74,9 +74,9 @@ const Login = () => {
                 Remember me
               </label>
             </div>
-            <a href="#!" className="hover:text-slate-400">
+            <Link to="#!" className="hover:text-slate-400">
               Forgot password?
-            </a>
+            </Link>
           </div>
 
           <div className="text-center">

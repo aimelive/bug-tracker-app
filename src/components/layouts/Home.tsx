@@ -107,7 +107,7 @@ const Home = (props: any) => {
   );
 };
 
-const mapStateToProps = (state: any) => ({ bugs: state });
+const mapStateToProps = (state: any) => ({ bugs: state.bugs });
 const mapDispatchToProps = (dispatch: any) => {
   return {
     addBug: (description: string) => {

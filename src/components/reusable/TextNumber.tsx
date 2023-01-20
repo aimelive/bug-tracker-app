@@ -23,6 +23,6 @@ const TextCount: React.FC<MenuItem> = (props: any) => {
   else return <span>({len})</span>;
 };
 const mapStateToProps = (state: any) => ({
-  bugs: state,
+  bugs: state.bugs,
 });
 export default connect(mapStateToProps)(TextCount);

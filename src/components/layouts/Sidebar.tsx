@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import TextCount from "../reusable/TextNumber";
 
 export const enum MenuItemType {
@@ -26,9 +26,9 @@ const SideBar = () => {
       <nav className="text-right">
         <div className="flex justify-between items-center">
           <h1 className="font-bold uppercase p-4 border-b border-gray-900">
-            <a href="/#" className="hover:text-gray-400">
+            <Link to="/" className="hover:text-gray-400">
               Bug Tracker
-            </a>
+            </Link>
           </h1>
           <div
             className="px-4 cursor-pointer md:hidden"
