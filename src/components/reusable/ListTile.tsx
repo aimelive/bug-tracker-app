@@ -1,4 +1,4 @@
-import { timeAgo } from "../helpers/timeAgo";
+import { timeAgo } from "../../helpers/shared";
 import Button from "./Button";
 
 const ListTile = (props: any) => {

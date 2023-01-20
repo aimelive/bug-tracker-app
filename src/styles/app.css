@@ -21,7 +21,7 @@ html {
   @apply px-4 flex justify-center md:justify-end border-r-4 border-opacity-0 border-yellow-400 transition ease-in-out duration-500;
 }
 
-.active-menu {
+#menu .active {
   @apply border-opacity-100 text-gray-400 font-bold;
 }
 

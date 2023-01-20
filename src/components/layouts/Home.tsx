@@ -1,11 +1,15 @@
 import { useState } from "react";
-import ListTile from "../components/ListTile";
+import ListTile from "../reusable/ListTile";
 import { connect } from "react-redux";
-import { bugAdded, bugRemoved, bugResolved } from "../redux/actions/bugActions";
-import astro from "../assets/lotties/astro.json";
+import {
+  bugAdded,
+  bugRemoved,
+  bugResolved,
+} from "../../redux/actions/bugActions";
+import astro from "../../assets/lotties/astro.json";
 import Lottie from "lottie-react";
 
-const Todo = (props: any) => {
+const Home = (props: any) => {
   const { bugs, addBug, removeBug, resolveBug } = props;
   const items: any = bugs;
   const [itemName, setItemName] = useState("");
@@ -117,4 +121,4 @@ const mapDispatchToProps = (dispatch: any) => {
     },
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Todo);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
