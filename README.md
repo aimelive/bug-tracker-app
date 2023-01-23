@@ -7,8 +7,8 @@ Bug Tracking App for Developers - Record your daily bugs here to memorize them, 
 ```bash
 git clone https://github.com/aimelive/bug-tracker-app.git
 ```
-* [x] Cd into `bug-tracker-app`directory
-* [x] Run `npm install`to get all depencies
+* [x] Cd into `bug-tracker-app` directory
+* [x] Run `npm install --legacy-peer-deps` to get all dependencies
 * [x] Run `npm start`to launch the project in your default browser
 * N.B: You must have Node Js installed on your machine and `typescript` installed globally on your machine
 
