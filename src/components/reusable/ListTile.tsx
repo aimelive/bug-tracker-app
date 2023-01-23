@@ -1,9 +1,10 @@
-import { timeAgo } from "../helpers/timeAgo";
+import { timeAgo } from "../../helpers/shared";
 import Button from "./Button";
 
 const ListTile = (props: any) => {
   const { bug, onDelete, onResolve } = props;
-  const time: string = timeAgo(bug.date);
+  // console.log(bug);
+  const time: string = timeAgo(bug.createdAt);
   return (
     <div className="flex justify-between flex-col rounded shadow-sm shadow-slate-700 hover:shadow-md hover:shadow-slate-500">
       <div className="flex justify-center">
@@ -18,8 +19,7 @@ const ListTile = (props: any) => {
         )}
       </div>
       <div className="text-center text-overflow p-4 text-gray-300">
-        {bug.description[0].toUpperCase() +
-          bug.description.substring(1).toLowerCase()}
+        {bug.title[0].toUpperCase() + bug.title.substring(1).toLowerCase()}
       </div>
       <span className="text-center text-xs italic font-semibold">{time}</span>
       <div className="flex justify-center">
