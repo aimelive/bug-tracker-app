@@ -27,7 +27,7 @@ const mapStateToProps = (state: any) => ({
 });
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    removeBug: (id: number) => {
+    removeBug: (id: string) => {
       dispatch(bugRemoved(id));
     },
   };

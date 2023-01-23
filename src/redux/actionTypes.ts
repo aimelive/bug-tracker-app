@@ -2,3 +2,7 @@
 export const BUG_ADDED = "bugAdded";
 export const BUG_REMOVED = "bugRemoved";
 export const BUG_RESOLVED = "bugResolved";
+export const CREATE_BUG_ERROR = "CREATE_BUG_ERROR";
+export const RESOLVE_BUG_ERROR = "resolveBugError";
+export const DELETE_BUG_ERROR = "deleteBugError";
+export const GET_ALL_BUGS = "getAllBugs";

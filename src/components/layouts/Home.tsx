@@ -1,25 +1,32 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ListTile from "../reusable/ListTile";
 import { connect } from "react-redux";
 import {
   bugAdded,
   bugRemoved,
   bugResolved,
+  getAllBugs,
 } from "../../redux/actions/bugActions";
 import astro from "../../assets/lotties/astro.json";
 import Lottie from "lottie-react";
+import Bug from "../../models/bug";
 
 const Home = (props: any) => {
-  const { bugs, addBug, removeBug, resolveBug } = props;
-  const items: any = bugs;
+  const { bugs, addBug, removeBug, resolveBug, getAllBugs } = props;
+  const items: Bug[] = bugs;
+
   const [itemName, setItemName] = useState("");
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    getAllBugs();
+  });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (itemName === "") return;
     for (let i = 0; i < items.length; i++) {
-      if (items[i] === itemName) {
+      if (items[i].title === itemName) {
         setError((e) => itemName + " Already exists");
         break;
       }
@@ -32,14 +39,14 @@ const Home = (props: any) => {
     }
   };
 
-  const handleRemove = (id: number) => {
+  const handleRemove = (id: string) => {
     removeBug(id);
   };
 
-  const handleResolve = (id: number) => {
+  const handleResolve = (id: string) => {
     resolveBug(id);
   };
-  // “Experience is the name everyone gives to their mistakes.” – Oscar Wilde
+
   return (
     <>
       <blockquote className="text-2xl font-semibold italic text-center my-12 mx-5">
@@ -83,15 +90,20 @@ const Home = (props: any) => {
         </div>
       </form>
       {items.length === 0 ? (
-        <Lottie
-          animationData={astro}
-          loop={true}
-          className="sm:w-1/2 md:w-2/5 m-auto my-10"
-        />
+        <>
+          <Lottie
+            animationData={astro}
+            loop={true}
+            className="sm:w-1/2 md:w-2/5 m-auto my-10"
+          />
+          <p className="text-center">
+            No bugs found, add a bug to display it here
+          </p>
+        </>
       ) : (
         // <p className="text-center">No bug yet!</p>
         <div className="mt-8 grid sm:grid-cols-2 md:grid-cols-3 gap-8">
-          {items.map((bug: any) => {
+          {items.map((bug: Bug) => {
             return (
               <ListTile
                 bug={bug}
@@ -110,13 +122,14 @@ const Home = (props: any) => {
 const mapStateToProps = (state: any) => ({ bugs: state.bugs });
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    addBug: (description: string) => {
-      dispatch(bugAdded(description));
+    getAllBugs: () => dispatch(getAllBugs()),
+    addBug: (title: string) => {
+      dispatch(bugAdded(title));
     },
-    removeBug: (id: number) => {
+    removeBug: (id: string) => {
       dispatch(bugRemoved(id));
     },
-    resolveBug: (id: number) => {
+    resolveBug: (id: string) => {
       dispatch(bugResolved(id));
     },
   };
