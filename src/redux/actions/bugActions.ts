@@ -12,13 +12,13 @@ import { firestore } from "../../config/firebaseConfig";
 import Bug from "../../models/bug";
 import * as actions from "../actionTypes";
 
-export const getAllBugs = () => {
+export const getAllBugs = (uid: string) => {
   return async (dispatch: any) => {
     try {
       const bugs: Bug[] = [];
       const q = query(
         collection(firestore, "bugs"),
-        where("creatorId", "==", 12345)
+        where("creatorId", "==", uid)
       );
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
@@ -29,6 +29,7 @@ export const getAllBugs = () => {
           creatorId,
           createdAt,
           resolvedAt,
+          status,
         } = doc.data();
         bugs.push({
           id: doc.id,
@@ -38,6 +39,7 @@ export const getAllBugs = () => {
           creatorId,
           createdAt: createdAt.toDate(),
           resolvedAt: resolvedAt.toDate(),
+          status,
         } as Bug);
       });
       bugs.sort((a, b) => {
@@ -57,14 +59,14 @@ export const getAllBugs = () => {
   };
 };
 
-export const bugAdded = (title: string) => {
+export const bugAdded = (title: string, uid: string) => {
   return async (dispatch: any) => {
     try {
       const bug = {
         title,
         description: "No description provided yet",
         resolved: false,
-        creatorId: 12345,
+        creatorId: uid,
         status: "created",
         createdAt: new Date(),
         resolvedAt: new Date(),
@@ -95,6 +97,44 @@ export const bugAdded = (title: string) => {
 };
 
 export const bugRemoved = (id: string) => {
+  return async (dispatch: any) => {
+    try {
+      const collRef = doc(firestore, "bugs", id);
+      await updateDoc(collRef, { status: "deleted" });
+      dispatch({
+        type: actions.BUG_REMOVED_TEMP,
+        payload: {
+          id,
+        },
+      });
+    } catch (error) {
+      dispatch({
+        type: actions.DELETE_BUG_ERROR,
+        payload: { id, error },
+      });
+    }
+  };
+};
+export const bugRestored = (id: string) => {
+  return async (dispatch: any) => {
+    try {
+      const collRef = doc(firestore, "bugs", id);
+      await updateDoc(collRef, { status: "created" });
+      dispatch({
+        type: actions.BUG_RESTORED,
+        payload: {
+          id,
+        },
+      });
+    } catch (error) {
+      // dispatch({
+      //   type: actions.DELETE_BUG_ERROR,
+      //   payload: { id, error },
+      // });
+    }
+  };
+};
+export const bugRemovedForever = (id: string) => {
   return async (dispatch: any) => {
     try {
       const collRef = doc(firestore, "bugs", id);

@@ -7,9 +7,8 @@ import {
   bugResolved,
   getAllBugs,
 } from "../../redux/actions/bugActions";
-import astro from "../../assets/lotties/astro.json";
-import Lottie from "lottie-react";
 import Bug from "../../models/bug";
+import NoBugFound from "../reusable/NoBugFound";
 
 const Home = (props: any) => {
   const { bugs, addBug, removeBug, resolveBug, getAllBugs } = props;
@@ -19,23 +18,20 @@ const Home = (props: any) => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    getAllBugs();
+    if (props.auth.user && props.auth.user.uid) {
+      getAllBugs(props.auth.user.uid);
+    }
   });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (itemName === "") return;
-    for (let i = 0; i < items.length; i++) {
-      if (items[i].title === itemName) {
-        setError((e) => itemName + " Already exists");
-        break;
-      }
-    }
-
-    if (error === "") {
-      addBug(itemName);
+    if (props.auth.user && props.auth.user.uid) {
+      addBug(itemName, props.auth.user.uid);
       setItemName("");
-      setError("");
+    } else {
+      setError("Please login to create a bug");
+      // console.log();
     }
   };
 
@@ -56,7 +52,7 @@ const Home = (props: any) => {
         </span>
         &nbsp; gives to their mistakes.” – Oscar Wilde
       </blockquote>
-      {error && <p className="text-red">{error}</p>}
+
       <form className="add-form mb-8" onSubmit={(e) => handleSubmit(e)}>
         <div className="flex items-center justify-center">
           <input
@@ -89,17 +85,9 @@ const Home = (props: any) => {
           </button>
         </div>
       </form>
+      {error && <div className="text-red-500 text-center">{error}</div>}
       {items.length === 0 ? (
-        <>
-          <Lottie
-            animationData={astro}
-            loop={true}
-            className="sm:w-1/2 md:w-2/5 m-auto my-10"
-          />
-          <p className="text-center">
-            No bugs found, add a bug to display it here
-          </p>
-        </>
+        <NoBugFound text="add"/>
       ) : (
         // <p className="text-center">No bug yet!</p>
         <div className="mt-8 grid sm:grid-cols-2 md:grid-cols-3 gap-8">
@@ -119,12 +107,15 @@ const Home = (props: any) => {
   );
 };
 
-const mapStateToProps = (state: any) => ({ bugs: state.bugs });
+const mapStateToProps = (state: any) => ({
+  bugs: state.bugs.filter((bug: Bug) => bug.status === "created"),
+  auth: state.auth,
+});
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    getAllBugs: () => dispatch(getAllBugs()),
-    addBug: (title: string) => {
-      dispatch(bugAdded(title));
+    getAllBugs: (uid: string) => dispatch(getAllBugs(uid)),
+    addBug: (title: string, uid: string) => {
+      dispatch(bugAdded(title, uid));
     },
     removeBug: (id: string) => {
       dispatch(bugRemoved(id));

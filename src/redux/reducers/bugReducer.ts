@@ -1,9 +1,7 @@
 import Bug from "../../models/bug";
 import * as actions from "../actionTypes";
 
-const initState: Object = [
-  // { id: ++lastId, description: "bug one", resolved: true },
-];
+const initState: any[] = [];
 
 export default function bugReducer(state: any = initState, action: any) {
   switch (action.type) {
@@ -11,6 +9,24 @@ export default function bugReducer(state: any = initState, action: any) {
       return action.payload.bugs;
     case actions.BUG_ADDED:
       return [action.payload, ...state];
+    case actions.BUG_REMOVED_TEMP:
+      return state.map((bug: Bug) =>
+        bug.id !== action.payload.id
+          ? bug
+          : {
+              ...bug,
+              status: "deleted",
+            }
+      );
+    case actions.BUG_RESTORED:
+      return state.map((bug: Bug) =>
+        bug.id !== action.payload.id
+          ? bug
+          : {
+              ...bug,
+              status: "created",
+            }
+      );
     case actions.BUG_REMOVED:
       return state.filter((bug: Bug) => bug.id !== action.payload.id);
     case actions.BUG_RESOLVED:

@@ -6,4 +6,5 @@ export default interface Bug {
   creatorId: string;
   createdAt: Date;
   resolvedAt: Date;
+  status: string
 }

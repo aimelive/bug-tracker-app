@@ -9,6 +9,7 @@ import NotFound from "./components/NotFound";
 import Notifications from "./components/Notifications";
 import "./styles/app.css";
 import ResolvedBugs from "./components/layouts/ResolvedBugs";
+import RemovedBugs from "./components/layouts/RemovedBugs";
 
 function App() {
   return (
@@ -27,11 +28,48 @@ function App() {
                 </>
               }
             />
-            <Route path="/notifications" element={<Notifications />} />
+            <Route
+              path="/notifications"
+              element={
+                <>
+                  <TopNavBar />
+                  <Notifications />
+                  <Footer />
+                </>
+              }
+            />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route path="/resolved" element={<ResolvedBugs />} />
-            <Route path="*" element={<NotFound />} />
+            <Route
+              path="/resolved"
+              element={
+                <>
+                  <TopNavBar />
+                  <ResolvedBugs />
+                  <Footer />
+                </>
+              }
+            />
+            <Route
+              path="/trash"
+              element={
+                <>
+                  <TopNavBar />
+                  <RemovedBugs />
+                  <Footer />
+                </>
+              }
+            />
+            <Route
+              path="*"
+              element={
+                <>
+                  <TopNavBar />
+                  <NotFound />
+                  <Footer />
+                </>
+              }
+            />
           </Routes>
         </main>
       </div>
