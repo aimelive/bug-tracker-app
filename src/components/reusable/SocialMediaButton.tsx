@@ -87,7 +87,7 @@ const SocialMediaButton = (props: SocialMedia) => {
   const handleOnMouseOver = () => {
     const tip = document.getElementById("tooltip");
     tip?.classList.toggle("hidden");
-    console.log(tip);
+    // console.log(tip);
   };
   return (
     <div className="relative">

@@ -6,3 +6,10 @@ export const CREATE_BUG_ERROR = "CREATE_BUG_ERROR";
 export const RESOLVE_BUG_ERROR = "resolveBugError";
 export const DELETE_BUG_ERROR = "deleteBugError";
 export const GET_ALL_BUGS = "getAllBugs";
+export const BUG_REMOVED_TEMP = "bugRemovedTemporary";
+export const BUG_RESTORED = "bugRestoredFromTrash";
+
+//Authentications action types
+export const USER_SIGNIN = "signingInUser";
+export const SIGNIN_ERROR = "errorSignIn";
+export const LOGOUT = "logoutUser";

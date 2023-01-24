@@ -1,12 +1,16 @@
-import { FormEvent, useState } from "react";
-import { Link } from "react-router-dom";
+import { FormEvent, useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { cfl } from "../../helpers/shared";
 import { Validate } from "../../helpers/validations";
+import { signUp } from "../../redux/actions/authActions";
 import SocialMediaButton, {
   SocialMediaIcon,
 } from "../reusable/SocialMediaButton";
 import TextInput, { FieldType } from "../reusable/TextInput";
 
-const SignUp = () => {
+const SignUp = (props: any) => {
+  const { signUp, auth } = props;
   const [formState, setFormState] = useState("");
 
   //From fields values
@@ -14,7 +18,17 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [pwd, setPwd] = useState("");
 
-  const handleSubmit = (e: FormEvent) => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (auth.user && auth.user.uid) {
+      navigate("/");
+    } else if (auth.authError && formState === "submitted") {
+      setFormState(auth.authError);
+    }
+  }, [formState, navigate, auth.authError, auth.user]);
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     if (
@@ -25,7 +39,9 @@ const SignUp = () => {
       setFormState("All fields are required");
       return;
     }
-    console.log("Form Submitted");
+    // console.log("Form Submitted");
+    await signUp(username, email, pwd);
+    setFormState("submitted");
   };
   return (
     <section id="signup">
@@ -45,7 +61,7 @@ const SignUp = () => {
           </div>
           {formState && (
             <div className="bg-primary text-center text-xs p-1 mb-4 rounded-full">
-              {formState}
+              {cfl(formState)}
             </div>
           )}
           <TextInput
@@ -95,5 +111,11 @@ const SignUp = () => {
     </section>
   );
 };
-
-export default SignUp;
+const mapStateToProps = (state: any) => ({ auth: state.auth });
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    signUp: (username: string, email: string, password: string) =>
+      dispatch(signUp(username, email, password)),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

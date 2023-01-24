@@ -1,26 +1,42 @@
-import { FormEvent, useState } from "react";
-import { Link } from "react-router-dom";
+import { FormEvent, useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { cfl } from "../../helpers/shared";
 import { Validate } from "../../helpers/validations";
+import { signIn } from "../../redux/actions/authActions";
 import SocialMediaButton, {
   SocialMediaIcon,
 } from "../reusable/SocialMediaButton";
 import TextInput, { FieldType } from "../reusable/TextInput";
 
-const Login = () => {
+const Login = (props: any) => {
+  const { signIn } = props;
   const [formState, setFormState] = useState("");
 
   //From fields values
   const [email, setEmail] = useState("");
   const [pwd, setPwd] = useState("");
 
-  const handleSubmit = (e: FormEvent) => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (props.auth.user && props.auth.user.uid) {
+      navigate("/");
+    } else if (props.auth.authError && formState === "submitted") {
+      setFormState(props.auth.authError);
+    }
+  }, [formState, navigate, props.auth.authError, props.auth.user]);
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     if (new Validate(email).email() || new Validate(pwd).password()) {
       setFormState("All fields are required");
       return;
     }
-    console.log("Form Submitted");
+    // console.log("Form Submitted");
+    await signIn(email, pwd);
+    setFormState("submitted");
   };
   return (
     <section id="login">
@@ -40,7 +56,7 @@ const Login = () => {
           </div>
           {formState && (
             <div className="bg-primary text-center text-xs p-1 mb-4 rounded-full">
-              {formState}
+              {cfl(formState)}
             </div>
           )}
           <TextInput
@@ -101,5 +117,11 @@ const Login = () => {
     </section>
   );
 };
-
-export default Login;
+const mapStateToProps = (state: any) => ({ auth: state.auth });
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    signIn: (email: string, password: string) =>
+      dispatch(signIn(email, password)),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -1,8 +1,8 @@
 import { timeAgo } from "../../helpers/shared";
 import Button from "./Button";
 
-const ListTile = (props: any) => {
-  const { bug, onDelete, onResolve } = props;
+const TrashListTile = (props: any) => {
+  const { bug, onDelete, onRestore } = props;
   // console.log(bug);
   const time: string = bug.resolved
     ? "Resolved " + timeAgo(bug.resolvedAt)
@@ -25,18 +25,16 @@ const ListTile = (props: any) => {
       </div>
       <span className="text-center text-xs italic font-semibold">{time}</span>
       <div className="flex justify-center">
-        {bug.resolved === false && (
-          <Button
-            click={onResolve}
-            text="Resolve"
-            color="bg-slate-500"
-            hover="bg-slate-400"
-          />
-        )}
+        <Button
+          click={onRestore}
+          text="Restore"
+          color="bg-slate-500"
+          hover="bg-slate-400"
+        />
         <Button
           click={onDelete}
           text="Delete"
-          color="bg-blue-900"
+          color="bg-red-500"
           hover="bg-pink-800"
         />
       </div>
@@ -44,4 +42,4 @@ const ListTile = (props: any) => {
   );
 };
 
-export default ListTile;
+export default TrashListTile;
