@@ -12,6 +12,7 @@ import TextInput, { FieldType } from "../reusable/TextInput";
 const SignUp = (props: any) => {
   const { signUp, auth } = props;
   const [formState, setFormState] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   //From fields values
   const [username, setUsername] = useState("");
@@ -22,6 +23,7 @@ const SignUp = (props: any) => {
 
   useEffect(() => {
     if (auth.user && auth.user.uid) {
+      setIsLoading(false);
       navigate("/");
     } else if (auth.authError && formState === "submitted") {
       setFormState(auth.authError);
@@ -39,9 +41,11 @@ const SignUp = (props: any) => {
       setFormState("All fields are required");
       return;
     }
+    setIsLoading(true);
     // console.log("Form Submitted");
     await signUp(username, email, pwd);
     setFormState("submitted");
+    setIsLoading(false);
   };
   return (
     <section id="signup">
@@ -94,7 +98,7 @@ const SignUp = (props: any) => {
               type="submit"
               className="inline-block px-16 py-2 my-8 bg-yellow-400 text-white font-medium text-sm leading-snug uppercase rounded-full shadow-md hover:bg-yellow-500 hover:shadow-lg focus:bg-yellow-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-700 active:shadow-lg transition duration-150 ease-in-out"
             >
-              Sign Up
+              {isLoading ? "Loading..." : "Sign Up"}
             </button>
             <p className="text-sm font-semibold mt-2 pt-1 mb-0">
               Already have an account?

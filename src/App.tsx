@@ -6,7 +6,7 @@ import SideBar from "./components/layouts/Sidebar";
 import Home from "./components/layouts/Home";
 import TopNavBar from "./components/layouts/TopNavbar";
 import NotFound from "./components/NotFound";
-import Notifications from "./components/Notifications";
+import Notifications from "./components/notification/Notifications";
 import "./styles/app.css";
 import ResolvedBugs from "./components/layouts/ResolvedBugs";
 import RemovedBugs from "./components/layouts/RemovedBugs";

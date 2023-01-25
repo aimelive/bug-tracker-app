@@ -8,7 +8,7 @@ export default function bugReducer(state: any = initState, action: any) {
     case actions.GET_ALL_BUGS:
       return action.payload.bugs;
     case actions.BUG_ADDED:
-      return [action.payload, ...state];
+      return [...state];
     case actions.BUG_REMOVED_TEMP:
       return state.map((bug: Bug) =>
         bug.id !== action.payload.id
