@@ -13,3 +13,7 @@ export const BUG_RESTORED = "bugRestoredFromTrash";
 export const USER_SIGNIN = "signingInUser";
 export const SIGNIN_ERROR = "errorSignIn";
 export const LOGOUT = "logoutUser";
+
+//Notifications action types
+export const GET_NOTIFICATIONS = "getAllNotifications";
+export const GET_NOTIFICATIONS_ERROR = "getNotificationsError";

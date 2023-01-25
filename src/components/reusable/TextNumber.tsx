@@ -4,14 +4,14 @@ import Bug from "../../models/bug";
 import { MenuItem, MenuItemType } from "../layouts/Sidebar";
 
 const TextCount: React.FC<MenuItem> = (props: any) => {
-  const { type, bugs } = props;
+  const { type, bugs, notifications } = props;
   let len: number = 0;
   switch (type) {
     case MenuItemType.all:
       len = bugs.filter((bug: Bug) => bug.status === "created").length;
       break;
     case MenuItemType.notifications:
-      len = 0;
+      len = notifications.length;
       break;
     case MenuItemType.resolved:
       len = bugs.filter(
@@ -30,5 +30,6 @@ const TextCount: React.FC<MenuItem> = (props: any) => {
 };
 const mapStateToProps = (state: any) => ({
   bugs: state.bugs,
+  notifications: state.notification.notifications,
 });
 export default connect(mapStateToProps)(TextCount);

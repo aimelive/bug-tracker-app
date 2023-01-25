@@ -16,7 +16,6 @@ const Home = (props: any) => {
 
   const [itemName, setItemName] = useState("");
   const [error, setError] = useState("");
-
   useEffect(() => {
     if (props.auth.user && props.auth.user.uid) {
       getAllBugs(props.auth.user.uid);
@@ -31,7 +30,6 @@ const Home = (props: any) => {
       setItemName("");
     } else {
       setError("Please login to create a bug");
-      // console.log();
     }
   };
 
@@ -87,7 +85,7 @@ const Home = (props: any) => {
       </form>
       {error && <div className="text-red-500 text-center">{error}</div>}
       {items.length === 0 ? (
-        <NoBugFound text="add"/>
+        <NoBugFound text="add" />
       ) : (
         // <p className="text-center">No bug yet!</p>
         <div className="mt-8 grid sm:grid-cols-2 md:grid-cols-3 gap-8">
