@@ -22,7 +22,7 @@ const ResolvedBugs = (props: any) => {
         animate={{ x: 0 }}
         transition={{ type: "spring", stiffness: 120 }}
       >
-        <h1 className="text-2xl">Removed Bugs</h1>
+        <h1 className="text-2xl">Resolved Bugs</h1>
       </motion.div>
 
       {items.length === 0 ? (
