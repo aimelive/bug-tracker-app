@@ -7,7 +7,7 @@ import { signOut } from "../../redux/actions/authActions";
 const TopNavBar = (props: any) => {
   const handleClickSignOut = async () => {
     await props.signOut();
-    window.location.href = "";
+    window.location.href = "/";
   };
   if (props.user && props.user.uid) {
     const user: User = props.user as User;

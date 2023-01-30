@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from "framer-motion";
 import { FormEvent, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,6 +9,24 @@ import SocialMediaButton, {
   SocialMediaIcon,
 } from "../reusable/SocialMediaButton";
 import TextInput, { FieldType } from "../reusable/TextInput";
+
+export const buttonVariants = {
+  hover: {
+    scale: 1.1,
+    textShadow: "0px 0px 8px rgb(255,255,255)",
+    boxShadow: "0px 0px 4px rgb(255,255,255)",
+    transition: {
+      // duration: 0.4,
+      yoyo: Infinity,
+    },
+  },
+};
+
+export const containerVariants = {
+  initial: { scale: 0, x: "100vw" },
+  animate: { scale: 1, x: 0, transition: { type: "spring", stiffness: 80 } },
+  exit: { x: "50vw", opacity: 0 },
+};
 
 const Login = (props: any) => {
   const { signIn } = props;
@@ -43,14 +62,19 @@ const Login = (props: any) => {
     setIsLoading(false);
   };
   return (
-    <section id="login">
+    <motion.section
+      id="login"
+      variants={containerVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+    >
       <div className="px-12 py-16 rounded-md md:w-2/5 md:mx-auto md:mt-16 shadow-md shadow-slate-400">
         <form onSubmit={handleSubmit} className="login-form">
           <div className="flex flex-row items-center justify-center lg:justify-start">
             <p className="text-lg mb-0 mr-4">Login in with</p>
 
             <SocialMediaButton icon={SocialMediaIcon.google} />
-            <SocialMediaButton icon={SocialMediaIcon.apple} />
             <SocialMediaButton icon={SocialMediaIcon.twitter} />
             <SocialMediaButton icon={SocialMediaIcon.github} />
           </div>
@@ -58,11 +82,21 @@ const Login = (props: any) => {
           <div className="flex items-center my-4 before:flex-1 before:border-t before:border-gray-300 before:mt-0.5 after:flex-1 after:border-t after:border-gray-300 after:mt-0.5">
             <p className="text-center font-semibold mx-4 mb-0">Or</p>
           </div>
-          {formState && (
-            <div className="bg-primary text-center text-xs p-1 mb-4 rounded-full">
-              {cfl(formState)}
-            </div>
-          )}
+          <AnimatePresence>
+            {formState && (
+              <motion.div
+                initial={{
+                  y: formState === "submitted" ? 0 : "-30px",
+                  opacity: formState === "submitted" ? 0 : 0.65,
+                }}
+                animate={{ y: 0, opacity: formState === "submitted" ? 0 : 1 }}
+                exit={{ y: "-10px", opacity: 0, scale: 0 }}
+                className="bg-primary text-center text-xs p-1 mb-4 rounded-full"
+              >
+                {cfl(formState)}
+              </motion.div>
+            )}
+          </AnimatePresence>
           <TextInput
             type={FieldType.email}
             onChange={(value) => {
@@ -100,12 +134,14 @@ const Login = (props: any) => {
           </div>
 
           <div className="text-center">
-            <button
+            <motion.button
+              variants={buttonVariants}
+              whileHover="hover"
               type="submit"
               className="inline-block px-16 py-2 my-8 bg-yellow-400 text-white font-medium text-sm leading-snug uppercase rounded-full shadow-md hover:bg-yellow-500 hover:shadow-lg focus:bg-yellow-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-700 active:shadow-lg transition duration-150 ease-in-out"
             >
               {isLoading ? "Loading..." : "Login"}
-            </button>
+            </motion.button>
             <p className="text-sm font-semibold mt-2 pt-1 mb-0">
               Don't have an account?
               <Link
@@ -118,7 +154,7 @@ const Login = (props: any) => {
           </div>
         </form>
       </div>
-    </section>
+    </motion.section>
   );
 };
 const mapStateToProps = (state: any) => ({ auth: state.auth });

@@ -9,6 +9,8 @@ import {
 } from "../../redux/actions/bugActions";
 import Bug from "../../models/bug";
 import NoBugFound from "../reusable/NoBugFound";
+import { motion } from "framer-motion";
+import { routeVariants } from "../../helpers/variants/routesVariants";
 
 const Home = (props: any) => {
   const { bugs, addBug, removeBug, resolveBug, getAllBugs } = props;
@@ -42,18 +44,31 @@ const Home = (props: any) => {
   };
 
   return (
-    <>
-      <blockquote className="text-2xl font-semibold italic text-center my-12 mx-5">
+    <motion.div
+      variants={routeVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+    >
+      <motion.blockquote
+        initial={{ opacity: 0.6 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.5 }}
+        className="text-2xl font-semibold italic text-center my-12 mx-5 opacity-10"
+      >
         “Experience is the name &nbsp;
         <span className="before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-yellow-500 relative inline-block">
           <span className="relative mx-2">everyone</span>
         </span>
         &nbsp; gives to their mistakes.” – Oscar Wilde
-      </blockquote>
+      </motion.blockquote>
 
       <form className="add-form mb-8" onSubmit={(e) => handleSubmit(e)}>
         <div className="flex items-center justify-center">
-          <input
+          <motion.input
+            initial={{ opacity: 0.2, x: "-20vw" }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 1 }}
             type="text"
             className="placeholder:italic placeholder:text-slate-400 block bg-white border border-slate-300 rounded-md py-2 px-3 shadow-sm focus:outline-none focus:border-yellow-500 focus:ring-yellow-200 focus:ring-1 sm:text-sm text-black w-full md:w-2/5"
             placeholder="Type bug here"
@@ -61,7 +76,11 @@ const Home = (props: any) => {
             value={itemName}
             onChange={(e) => setItemName(e.target.value)}
           />
-          <button
+
+          <motion.button
+            initial={{ opacity: 0.2, x: "20vw" }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 1 }}
             type="submit"
             className="flex items-center justify-evenly text-white bg-blue-900 px-4 md:px-8 py-2 border-y border-blue-900 text-sm rounded hover:bg-blue-600 transition ease-out duration-500"
           >
@@ -80,10 +99,20 @@ const Home = (props: any) => {
               />
             </svg>
             <span> &nbsp;Add </span>
-          </button>
+          </motion.button>
         </div>
       </form>
-      {error && <div className="text-red-500 text-center">{error}</div>}
+      {error && (
+        <motion.div
+          initial={{ x: 0 }}
+          animate={{
+            x: [-10, 0, 10, 0, -10, 0, 10, 0, -10, 0, 10, 0, -10, 0, 10, 0],
+          }}
+          className="text-red-500 text-center"
+        >
+          {error}
+        </motion.div>
+      )}
       {items.length === 0 ? (
         <NoBugFound text="add" />
       ) : (
@@ -101,7 +130,7 @@ const Home = (props: any) => {
           })}
         </div>
       )}
-    </>
+    </motion.div>
   );
 };
 

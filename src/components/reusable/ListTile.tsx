@@ -1,14 +1,29 @@
+import { motion } from "framer-motion";
 import { timeAgo } from "../../helpers/shared";
 import Button from "./Button";
 
+export const containerVariants = {
+  init: { scale: 0.85 },
+  animate: { scale: 1, transition: { duration: 2 } },
+};
+
 const ListTile = (props: any) => {
   const { bug, onDelete, onResolve } = props;
-  // console.log(bug);
   const time: string = bug.resolved
     ? "Resolved " + timeAgo(bug.resolvedAt)
     : "Created " + timeAgo(bug.createdAt);
+
   return (
-    <div className="flex justify-between flex-col rounded shadow-sm shadow-slate-700 hover:shadow-md hover:shadow-slate-500">
+    <motion.div
+      variants={containerVariants}
+      initial="init"
+      animate="animate"
+      whileHover={{ scale: 1.05 }}
+      drag
+      dragConstraints={{ left: 0, bottom: 0, right: 0, top: 0 }}
+      dragElastic={1}
+      className="flex justify-between flex-col rounded shadow-sm shadow-slate-700 hover:shadow-md hover:shadow-slate-500 bg-main"
+    >
       <div className="flex justify-center">
         {bug.resolved === true ? (
           <div className="text-xs bg-green-700 px-2 py-1 rounded-full cursor-pointer shadow-inner shadow-slate-700 hover:shadow-md">
@@ -40,7 +55,7 @@ const ListTile = (props: any) => {
           hover="bg-pink-800"
         />
       </div>
-    </div>
+    </motion.div>
   );
 };
 
