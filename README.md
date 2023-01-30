@@ -13,7 +13,11 @@ git clone https://github.com/aimelive/bug-tracker-app.git
 * N.B: You must have Node Js installed on your machine and `typescript` installed globally on your machine
 
 ### Deployments
-
+* Web App
+```bash
+https://bug-tracker-9f416.web.app/
+```
+* Netlify
 ```bash
 https://bugs-tracking.netlify.app/
 ```
