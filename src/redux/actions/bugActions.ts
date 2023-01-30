@@ -11,7 +11,6 @@ import {
 import { firestore } from "../../config/firebaseConfig";
 import Bug from "../../models/bug";
 import * as actions from "../actionTypes";
-import { getAllNotifications } from "./notificationActions";
 
 export const getAllBugs = (uid: string) => {
   return async (dispatch: any) => {

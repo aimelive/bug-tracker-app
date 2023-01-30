@@ -1,4 +1,6 @@
+import { motion } from "framer-motion";
 import { connect } from "react-redux";
+import { routeVariants } from "../../helpers/variants/routesVariants";
 import Bug from "../../models/bug";
 import { bugRemoved } from "../../redux/actions/bugActions";
 import ListTile from "../reusable/ListTile";
@@ -8,10 +10,23 @@ const ResolvedBugs = (props: any) => {
   const { bugs, removeBug } = props;
   const items: any = bugs;
   return (
-    <div className="text-center">
-      <h1 className="text-2xl">We've got all resolved bugs here</h1>
+    <motion.div
+      className="text-center"
+      variants={routeVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+    >
+      <motion.div
+        initial={{ x: "-100vw" }}
+        animate={{ x: 0 }}
+        transition={{ type: "spring", stiffness: 120 }}
+      >
+        <h1 className="text-2xl">Removed Bugs</h1>
+      </motion.div>
+
       {items.length === 0 ? (
-        <NoBugFound text="resolve"/>
+        <NoBugFound text="resolve" />
       ) : (
         <div className="mt-8 grid sm:grid-cols-2 md:grid-cols-3 gap-8">
           {items.map((bug: any) => {
@@ -25,7 +40,7 @@ const ResolvedBugs = (props: any) => {
           })}
         </div>
       )}
-    </div>
+    </motion.div>
   );
 };
 const mapStateToProps = (state: any) => ({

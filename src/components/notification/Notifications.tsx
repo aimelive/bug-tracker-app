@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { connect } from "react-redux";
 import { IsLoading } from "../../helpers/shared";
@@ -18,7 +19,13 @@ const Notifications = (props: any) => {
   });
 
   return (
-    <section id="notifications">
+    <motion.section
+      initial={{ y: "-100vh" }}
+      animate={{ y: 0 }}
+      exit={{ y: "-100vh" }}
+      transition={{ duration: 0.5 }}
+      id="notifications"
+    >
       <div className="container">
         <div className="text-2xl font-semibold my-3 font-sans">
           <p>Notifications</p>
@@ -27,20 +34,29 @@ const Notifications = (props: any) => {
           <p>Loading...</p>
         ) : null}
         {!props.user && (
-          <p className="text-center">Sign in to see your notifications</p>
+          <motion.p
+            initial={{ x: 0 }}
+            animate={{
+              x: [-10, 0, 10, 0, -10, 0, 10, 0, -10, 0, 10, 0, -10, 0, 10, 0],
+            }}
+            transition={{ delay: 0.5 }}
+            className="text-center"
+          >
+            Sign in to see your notifications
+          </motion.p>
         )}
         {status === IsLoading.failed ? <p>Something went wrong!</p> : null}
         <ul className="notifications">
-          {notifications.map((notification) => {
+          {notifications.map((notification, index) => {
             return (
               <li key={notification.id}>
-                <NotificationTile {...notification} />
+                <NotificationTile notification={notification} index={index} />
               </li>
             );
           })}
         </ul>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

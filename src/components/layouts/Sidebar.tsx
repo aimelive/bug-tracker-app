@@ -1,5 +1,7 @@
 import { Link, NavLink } from "react-router-dom";
 import TextCount from "../reusable/TextNumber";
+import { motion } from "framer-motion";
+import Typical from "react-typical";
 
 export const enum MenuItemType {
   all,
@@ -22,14 +24,26 @@ const SideBar = () => {
     }
   };
   return (
-    <div className="md:col-span-1 md:flex md:justify-end">
+    <div className="bg-main md:col-span-1 md:flex md:justify-end">
       <nav className="text-right">
         <div className="flex justify-between items-center">
-          <h1 className="font-bold uppercase p-4 border-b border-gray-900">
-            <Link to="/" className="hover:text-gray-400">
-              Bug Tracker
-            </Link>
-          </h1>
+          <motion.div
+            drag={true}
+            initial={{ y: -100 }}
+            animate={{ y: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            <h1 className="text-xl font-bold uppercase p-4 border-b border-gray-900">
+              <Link to="/" className="hover:text-gray-400">
+                <Typical
+                  steps={["Bug Tracker", 2000, "Bug Recorder", 2000]}
+                  loop={Infinity}
+                  wrapper="p"
+                />
+              </Link>
+            </h1>
+          </motion.div>
+
           <div
             className="px-4 cursor-pointer md:hidden"
             id="menuBtn"

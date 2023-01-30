@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { FormEvent, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,6 +9,7 @@ import SocialMediaButton, {
   SocialMediaIcon,
 } from "../reusable/SocialMediaButton";
 import TextInput, { FieldType } from "../reusable/TextInput";
+import { containerVariants } from "./Login";
 
 const SignUp = (props: any) => {
   const { signUp, auth } = props;
@@ -48,14 +50,19 @@ const SignUp = (props: any) => {
     setIsLoading(false);
   };
   return (
-    <section id="signup">
+    <motion.section
+      id="signup"
+      variants={containerVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+    >
       <div className="px-12 py-16 rounded-md md:w-2/5 md:mx-auto md:mt-16 shadow-md shadow-slate-400">
         <form onSubmit={handleSubmit} className="login-form">
           <div className="flex flex-row items-center justify-center lg:justify-start">
             <p className="text-lg mb-0 mr-4">Sign up with</p>
 
             <SocialMediaButton icon={SocialMediaIcon.google} />
-            <SocialMediaButton icon={SocialMediaIcon.apple} />
             <SocialMediaButton icon={SocialMediaIcon.twitter} />
             <SocialMediaButton icon={SocialMediaIcon.github} />
           </div>
@@ -64,9 +71,13 @@ const SignUp = (props: any) => {
             <p className="text-center font-semibold mx-4 mb-0">Or</p>
           </div>
           {formState && (
-            <div className="bg-primary text-center text-xs p-1 mb-4 rounded-full">
+            <motion.div
+              initial={{ y: "-30px", opacity: 0.65 }}
+              animate={{ y: 0, opacity: 1 }}
+              className="bg-primary text-center text-xs p-1 mb-4 rounded-full"
+            >
               {cfl(formState)}
-            </div>
+            </motion.div>
           )}
           <TextInput
             type={FieldType.username}
@@ -94,12 +105,18 @@ const SignUp = (props: any) => {
           />
 
           <div className="text-center">
-            <button
+            <motion.button
+              whileHover={{
+                scale: 1.1,
+                textShadow: "0px 0px 8px rgb(255,255,255)",
+                boxShadow: "0px 0px 8px rgb(255,255,255)",
+                cursor: "pointer",
+              }}
               type="submit"
               className="inline-block px-16 py-2 my-8 bg-yellow-400 text-white font-medium text-sm leading-snug uppercase rounded-full shadow-md hover:bg-yellow-500 hover:shadow-lg focus:bg-yellow-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-700 active:shadow-lg transition duration-150 ease-in-out"
             >
               {isLoading ? "Loading..." : "Sign Up"}
-            </button>
+            </motion.button>
             <p className="text-sm font-semibold mt-2 pt-1 mb-0">
               Already have an account?
               <Link
@@ -112,7 +129,7 @@ const SignUp = (props: any) => {
           </div>
         </form>
       </div>
-    </section>
+    </motion.section>
   );
 };
 const mapStateToProps = (state: any) => ({ auth: state.auth });

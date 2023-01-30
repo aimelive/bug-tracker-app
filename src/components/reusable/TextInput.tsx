@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { cfl } from "../../helpers/shared";
 
@@ -63,11 +64,20 @@ const TextInput = (props: InputField) => {
             props.onChange(e.target.value.trim());
           }}
         />
-        {validation ? (
-          <span className="text-primary text-xs">{cfl(validation)}</span>
-        ) : (
-          <span className="text-transparent text-xs">validated no error</span>
-        )}
+        <AnimatePresence>
+          {validation ? (
+            <motion.span
+              initial={{ opacity: 0.5, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              className="text-primary text-xs"
+            >
+              {cfl(validation)}
+            </motion.span>
+          ) : (
+            <span className="text-transparent text-xs">validated no error</span>
+          )}
+        </AnimatePresence>
       </div>
       {props.type === FieldType.password && (
         <span
